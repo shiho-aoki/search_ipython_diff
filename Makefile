@@ -3,10 +3,10 @@ SRC_DIR:= /work/ipython_diff/src
 
 PyTorch:=/work/ipython_diff/data/avilen/PyTorch
 TenserFlow:=/work/ipython_diff/data/avilen/TensorFlow
-
 TEST_DATA_NAME:= /work/ipython_diff/data/test-data
-TEST_NUMBER:=04
-ISPY:= false
+
+TEST_NUMBER:=02
+ISPY:= true
 
 help:
 	@echo cat Makefile

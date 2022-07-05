@@ -1,23 +1,30 @@
-use std::fs::File;
-use std::io::prelude::*;
+use std::path::Path;
+
+mod files_reader;
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
-    let test_data = &args[1];
-    let ans_dir = &args[2];
-    let sample_number = &args[3];
-
-    let file_dir_name = String::from(ans_dir) + "/";
-    let file_name = String::from(sample_number) + ".ipynb";
-    let filename = String::from(file_dir_name) + &file_name;
+    let exec_root = Path::new(&args[1]);
+    let ans_root = Path::new(&args[2]);
     
-    println!("file: {}", filename);
-    println!("Test: {}", test_data);
+    let file_name = String::from(&args[3]) + ".ipynb";
+    let filename = ans_root.join(file_name);
 
-    let mut f = File::open(filename).expect("file not found");
-    let mut contents = String::new();
-    f.read_to_string(&mut contents)
-        .expect("something went wrong reading the file");
-    println!("{}", contents);
+    //read ans file
+    match files_reader::cat_file(&filename){
+        Err(why) => println!("! {:?}", why.kind()),
+        Ok(s) => println!("> {}", s),
+    }
 
+    //search test data
+    match files_reader::read_data_from_path(&exec_root){
+        Err(why) => println!("! {:?}", why.kind()),
+        Ok(paths) => for path in paths {
+            let exec_path = exec_root.join(&path);
+            match files_reader::cat_file(&Path::new(&exec_path)){
+                Err(why) => println!("! {:?}", why.kind()),
+                Ok(s) => println!("> {}",s),
+            }
+        },
+    }
 }
