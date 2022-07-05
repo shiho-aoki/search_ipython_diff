@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  ipy-diff:
+    container_name: ipython-diff
+    build:
+      context: ./
+    tty: true
+    volumes:
+      - .:/work/ipython_diff
+    ports:
+      - 8083:8083

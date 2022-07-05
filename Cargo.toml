@@ -1,0 +1,6 @@
+[package]
+name = "ipy-diff"
+version = "0.1.0"
+authors = ["shiho-aoki <s.aoki.ase@gmail.com>"]
+
+[dependencies]
