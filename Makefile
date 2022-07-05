@@ -1,15 +1,31 @@
 SERVICE:= ipython-diff
 SRC_DIR:= /work/ipython_diff/src
 
+PyTorch:=/work/ipython_diff/data/avilen/PyTorch
+TenserFlow:=/work/ipython_diff/data/avilen/TensorFlow
+
+TEST_DATA_NAME:= /work/ipython_diff/data/test-data
+TEST_NUMBER:=04
+ISPY:= false
+
 help:
 	@echo cat Makefile
 
+# for user
+ISPYFile = 
+ifeq ($(ISPY),true)
+	ISPYFile = $(PyTorch)
+else
+	ISPYFile = $(TenserFlow)
+endif
+
 # converter
 .PHONY: serve
+build:
+	cargo check
+	cargo build
 serve:
-	@cargo check
-	@cargo build
-	@cargo run
+	@cargo run $(TEST_DATA_NAME) $(ISPYFile) $(TEST_NUMBER)
 
 naitive-build:
 	@rustc src/main.rs
